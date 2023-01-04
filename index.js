@@ -1,10 +1,28 @@
-const NotesModel = require('./notesModel');
-const NotesView = require('./notesView');
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const PORT = 3000;
 
-console.log("The notes app is running")
+app.use(cors())
 
-const model = new NotesModel();
-model.addNote('This is an example note');
+let notes = [
+  'This note is coming from the server'
+];
 
-const view = new NotesView(model);
-view.displayNotes();
+app.use(express.json());
+
+app.get('/notes', (_req, res) => {
+  res.send(JSON.stringify(notes));
+});
+
+app.post('/notes', (req, res) => {
+  notes.push(req.body.content)
+  res.send(JSON.stringify(notes));
+});
+
+app.delete('/notes', (req, res) => {
+  notes = [];
+  res.send(JSON.stringify(notes))
+});
+
+app.listen(PORT);
