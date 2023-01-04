@@ -52,4 +52,35 @@ describe('Notes view', () => {
 
     expect(document.querySelectorAll('div.note').length).toEqual(2);
   })
-});
+
+  it('displays information from the API', () => {
+    const mockedModel = new NotesModel();
+    const mockedView = new NotesView();
+    const mockedClient = {
+      LoadNotes: (notes) => {
+        callback({
+          name: "sinatra/sinatra",
+          description: "Some fake description",
+        });
+      },
+    };
+
+    displayNotesFromApi() {
+      mockedClient.loadNotes((notes) => {
+        mockedModel.setNotes(notes);
+        mockedView.displayNotes();
+      });
+    }
+  });
+})
+    
+    // displayNotesFromApi() {
+    //   this.client.loadNotes((notes) => {
+    //     this.model.setNotes(notes);
+    //     this.displayNotes();
+    //   });
+    // }
+
+
+//   })
+// })
