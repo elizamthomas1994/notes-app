@@ -2,7 +2,10 @@
  * @jest-environment jsdom
  */
 
+jest.mock('./notesClient')
+
 const fs = require('fs');
+const NotesClient = require('./notesClient');
 
 const NotesModel = require('./notesModel');
 const NotesView = require('./notesView');
@@ -53,27 +56,23 @@ describe('Notes view', () => {
     expect(document.querySelectorAll('div.note').length).toEqual(2);
   })
 
-  it('displays information from the API', () => {
-    const mockedModel = new NotesModel();
-    const mockedView = new NotesView();
-    const mockedClient = {
-      LoadNotes: (notes) => {
-        callback({
-          name: "sinatra/sinatra",
-          description: "Some fake description",
-        });
-      },
-    };
+  it('displays information from the API', (done) => {
+    const model = new NotesModel();
+    const mockedClient = new NotesClient();
+    const view = new NotesView(model, mockedClient);
 
-    displayNotesFromApi() {
-      mockedClient.loadNotes((notes) => {
-        mockedModel.setNotes(notes);
-        mockedView.displayNotes();
-      });
-    }
-  });
-})
-    
+    mockedClient.loadNotes.mockImplementation((callback) => {
+      const data = [{content : "This is a note" },{content : "This is another note" }]
+      return callback(data)
+    })
+
+    view.displayNotesFromApi()
+    // console.log(document.body.innerHTML);
+    console.log(document.querySelector('div.note'));
+  
+    done()});
+  })
+
     // displayNotesFromApi() {
     //   this.client.loadNotes((notes) => {
     //     this.model.setNotes(notes);
