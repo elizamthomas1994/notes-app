@@ -67,7 +67,6 @@ describe('Notes view', () => {
     })
 
     view.displayNotesFromApi()
-    // console.log(document.body.innerHTML);
     console.log(document.querySelector('div.note'));
   
     done()});
