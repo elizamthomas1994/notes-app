@@ -2,15 +2,11 @@ class NotesClient {
   loadNotes(callback, error) {
     return fetch('http://localhost:3000/notes')
       .then(response => response.json())
-      .then(data => {
-        callback(data);
-      })
-      .catch(() => {
-        return error();
-      });
+      .then(data => callback(data))
+      .catch(() => error());
   }
 
-  createNote(note) {
+  createNote(note, error) {
     const data = {content: note}
     fetch('http://localhost:3000/notes', {
       method: 'POST',
@@ -19,12 +15,13 @@ class NotesClient {
       },
       body: JSON.stringify(data)
     }).then(response => response.json())
+    .catch(() => error());
   }
 
-  reset() {
+  reset(error) {
     fetch('http://localhost:3000/notes', {
       method: 'DELETE'
-    })
+    }).catch(() => error);
   }
 }
 

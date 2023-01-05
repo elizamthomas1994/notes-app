@@ -38,6 +38,6 @@ button {
   cursor: pointer;
 }
 
-#del-note-button {
+#reset-btn {
   background: red;
 }
