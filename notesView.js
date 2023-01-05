@@ -37,11 +37,19 @@ class NotesView {
   }
 
   displayNotesFromApi() {
-    this.client.loadNotes((notes) => {
+    this.client.loadNotes((notes) => {;
       this.model.setNotes(notes);
       this.displayNotes();
-    });
+    },
+    () => this.displayError());
   }
+
+  displayError = () => {
+    const errorMessage = document.createElement('p')
+    errorMessage.textContent = "Oops, something went wrong!";
+    errorMessage.className = 'error';
+    this.mainContainerEl.append(errorMessage);
+  };
 }
 
 

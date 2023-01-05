@@ -28,8 +28,9 @@ describe('Notes view', () => {
   it('adds a new note', () => {
     document.body.innerHTML = fs.readFileSync('./index.html');
 
+    const mockedClient = new NotesClient();
     const model = new NotesModel();
-    const view = new NotesView(model);
+    const view = new NotesView(model, mockedClient);
 
     const input = document.querySelector('#add-note-input');
     input.value = 'Test note';
@@ -71,4 +72,24 @@ describe('Notes view', () => {
   
     done()
   });
+
+  xit('displays an error when fetch fails', () => {
+    const model = new NotesModel();
+    const mockedClient = new NotesClient();
+    const view = new NotesView(model, mockedClient)
+
+    mockedClient.loadNotes.mockImplementation((callback) => {
+      const data = displayError()
+      return callback(data)
+    })
+
+    view.displayNotesFromApi()
+    console.log(document.querySelector('p'));
+
+    expect(document.querySelectorAll('p')[0].textConent).toEqual(
+      "Oops, something went wrong!"
+    )
+
+    done()
+  })
 })
