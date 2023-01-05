@@ -32,7 +32,9 @@ class NotesView {
 
     notes.forEach(note => {
       const noteEl = document.createElement('div')
-      noteEl.textContent = note;
+      this.client.emojify(note, (response) => {
+        noteEl.textContent = response.emojified_text;
+      })
       noteEl.className = 'note';
       this.mainContainerEl.append(noteEl);
     })
