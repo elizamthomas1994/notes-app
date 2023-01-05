@@ -69,16 +69,6 @@ describe('Notes view', () => {
     view.displayNotesFromApi()
     console.log(document.querySelector('div.note'));
   
-    done()});
-  })
-
-    // displayNotesFromApi() {
-    //   this.client.loadNotes((notes) => {
-    //     this.model.setNotes(notes);
-    //     this.displayNotes();
-    //   });
-    // }
-
-
-//   })
-// })
+    done()
+  });
+})
